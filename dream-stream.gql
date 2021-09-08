@@ -1,0 +1,46 @@
+type Comment {
+    userName: String!
+    message: String!
+    post: Post
+}
+
+type Likes {
+    userName: String!
+    post: Post
+}
+
+type Post {
+    userName: String!
+    title: String
+    description: String
+    image: String!
+    imageDelete: String!
+    date: String!
+    tags: [String!]
+    likes: [Likes] @relation
+    comments: [Comment] @relation
+}
+
+type UserTags {
+    tags: [String!]
+    user: User
+}
+
+type User {
+    userName: String! @unique
+    password: String!
+    userTags: UserTags @relation
+}
+
+type Query {
+  allPosts: [Post!]!
+  allComments: [Comment!]
+  allUsers: [User!]
+  getUserByName(userName: String): User
+  getTopStreams(tags: [String!]): [UserTags!]!
+  getUserTags(tags: String): [UserTags!]!
+  getPostLikeByName(userName: String): [Likes!]!
+  getPostByName(userName: String): [Post!]!
+  getByTag(tags: String): [Post]
+}
+
